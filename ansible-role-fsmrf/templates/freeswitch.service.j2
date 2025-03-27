@@ -1,0 +1,34 @@
+
+[Unit]
+Description=freeswitch
+After=syslog.target network.target local-fs.target
+
+[Service]
+; service
+Type=forking
+PIDFile={{ freeswitch_path }}/run/freeswitch.pid
+EnvironmentFile=-/etc/default/freeswitch
+Environment="MOD_AUDIO_FORK_SUBPROTOCOL_NAME={{ mod_audio_fork_subprotocol }}"
+Environment="MOD_AUDIO_FORK_SERVICE_THREADS={{ mod_audio_fork_service_threads }}"
+Environment="MOD_AUDIO_FORK_BUFFER_SECS={{ mod_audio_fork_buffer_secs }}"
+Environment="LD_LIBRARY_PATH=/usr/local/lib"
+ExecStart={{ freeswitch_path }}/bin/freeswitch -nc -nonat
+TimeoutSec=45s
+Restart=always
+; exec
+User=root
+Group=daemon
+LimitCORE=infinity
+LimitNOFILE=100000
+LimitNPROC=60000
+;LimitSTACK=240
+LimitRTPRIO=infinity
+LimitRTTIME=7000000
+IOSchedulingClass=realtime
+IOSchedulingPriority=2
+CPUSchedulingPolicy=rr
+CPUSchedulingPriority=89
+UMask=0007
+
+[Install]
+WantedBy=multi-user.target
