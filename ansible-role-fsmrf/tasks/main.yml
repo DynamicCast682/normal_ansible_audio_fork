@@ -49,6 +49,7 @@
 
     cloud_provider: none
     freeswitch_bind_cloud_ip: false
+    tdir: /home/normal_ansible_audio_fork/ansible-role-fsmrf
 
     rtp_start_port: 25000
     rtp_end_port: 39000
@@ -178,7 +179,7 @@
 
     - name: patch libfvad configure.ac on Debian 12
       copy: 
-        src: "configure.ac.libfvad"
+        src: "{{tdir}}/configure.ac.libfvad"
         dest: "{{freeswitch_sources_path}}/libs/libfvad/configure.ac"
       when: ansible_distribution == "Debian" and ansible_distribution_major_version == '12'
 
