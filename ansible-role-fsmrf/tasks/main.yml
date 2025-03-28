@@ -421,6 +421,11 @@
     - name: bootstrap 
       shell: ./bootstrap.sh -j chdir={{freeswitch_sources_path}}
 
+    - name: Freeswitch autoreconf
+      shell: autoreconf -f -i
+      args:
+        chdir: "{{freeswitch_sources_path}}"
+
     - name: Freeswitch configuration
       shell: PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./{{freeswitch_configure_command}}  # noqa
       args:
