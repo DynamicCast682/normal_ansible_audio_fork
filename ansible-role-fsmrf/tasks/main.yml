@@ -152,11 +152,29 @@
     #         make -j 4 && make install
     #       args:
     #         chdir: "{{freeswitch_sources_path}}/libs/aws-sdk-cpp/build"
-
+    - name:  Debian family - install build dependencies
+      apt: 
+        state: latest
+        name: ['libshout3-dev', 'libmpg123-dev', 'libmp3lame-dev']
+        
     - name: check out spandsp
       git: repo=https://github.com/freeswitch/spandsp.git
           dest={{freeswitch_sources_path}}/libs/spandsp
           version={{spandsp_version}}
+          depth=50
+          accept_hostkey=yes
+          force=yes
+
+    - name: check out libks
+      git: repo=https://github.com/signalwire/libks.git
+          dest={{freeswitch_sources_path}}/libs/libks
+          depth=50
+          accept_hostkey=yes
+          force=yes
+
+    - name: check out soundtouch
+      git: repo=https://codeberg.org/soundtouch/soundtouch.git
+          dest={{freeswitch_sources_path}}/libs/soundtouch
           depth=50
           accept_hostkey=yes
           force=yes
@@ -183,41 +201,41 @@
         dest: "{{freeswitch_sources_path}}/libs/libfvad/configure.ac"
       when: ansible_distribution == "Debian" and ansible_distribution_major_version == '12'
 
-    - name: check out nuance protobufs
-      git: 
-        repo: https://github.com/drachtio/nuance-asr-grpc-api.git
-        dest: "{{freeswitch_sources_path}}/libs/nuance-asr-grpc-api"
-        version: main
-        depth: 50
-        accept_hostkey: yes
-        force: yes
+    # - name: check out nuance protobufs
+    #   git: 
+    #     repo: https://github.com/drachtio/nuance-asr-grpc-api.git
+    #     dest: "{{freeswitch_sources_path}}/libs/nuance-asr-grpc-api"
+    #     version: main
+    #     depth: 50
+    #     accept_hostkey: yes
+    #     force: yes
 
-    - name: check out nvidia protobufs
-      git: 
-        repo: https://github.com/drachtio/riva-asr-grpc-api.git
-        dest: "{{freeswitch_sources_path}}/libs/riva-asr-grpc-api"
-        version: main
-        depth: 50
-        accept_hostkey: yes
-        force: yes
+    # - name: check out nvidia protobufs
+    #   git: 
+    #     repo: https://github.com/drachtio/riva-asr-grpc-api.git
+    #     dest: "{{freeswitch_sources_path}}/libs/riva-asr-grpc-api"
+    #     version: main
+    #     depth: 50
+    #     accept_hostkey: yes
+    #     force: yes
 
-    - name: check out soniox protobufs
-      git: 
-        repo: https://github.com/drachtio/soniox-asr-grpc-api.git
-        dest: "{{freeswitch_sources_path}}/libs/soniox-asr-grpc-api"
-        version: main
-        depth: 50
-        accept_hostkey: yes
-        force: yes
+    # - name: check out soniox protobufs
+    #   git: 
+    #     repo: https://github.com/drachtio/soniox-asr-grpc-api.git
+    #     dest: "{{freeswitch_sources_path}}/libs/soniox-asr-grpc-api"
+    #     version: main
+    #     depth: 50
+    #     accept_hostkey: yes
+    #     force: yes
 
-    - name: check out cobalt protobufs
-      git: 
-        repo: https://github.com/drachtio/cobalt-asr-grpc-api.git
-        dest: "{{freeswitch_sources_path}}/libs/cobalt-asr-grpc-api"
-        version: main
-        depth: 50
-        accept_hostkey: yes
-        force: yes
+    # - name: check out cobalt protobufs
+    #   git: 
+    #     repo: https://github.com/drachtio/cobalt-asr-grpc-api.git
+    #     dest: "{{freeswitch_sources_path}}/libs/cobalt-asr-grpc-api"
+    #     version: main
+    #     depth: 50
+    #     accept_hostkey: yes
+    #     force: yes
 
     - name: check out lws code
       git: 
@@ -284,6 +302,23 @@
       shell: autoreconf -i && ./configure && make -j 4 && make install
       args:
         chdir: "{{freeswitch_sources_path}}/libs/libfvad"
+
+    - name: build libks
+      shell: |
+        cmake . -DCMAKE_BUILD_TYPE=Debug
+        make install
+      args:
+        chdir: "{{freeswitch_sources_path}}/libs/libks"
+
+    - name: build soundtouch
+      shell: |
+        ./bootstrap
+        ./configure --enable-integer-samples
+        make -j$(nproc)
+        make install
+        ldconfig
+      args:
+        chdir: "{{freeswitch_sources_path}}/libs/soundtouch"
 
     - name: build spandsp
       shell: ./bootstrap.sh && ./configure && make -j 4 && make install
