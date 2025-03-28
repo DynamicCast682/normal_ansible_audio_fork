@@ -302,8 +302,8 @@
         - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_google_transcribe/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
         - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_google_tts/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
         - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_dialogflow/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
-        - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_aws_lex/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
-        - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_aws_transcribe/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
+        # - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_aws_lex/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
+        # - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_aws_transcribe/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
         - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_azure_transcribe/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
         - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_cobalt_transcribe/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
         - {src: /usr/local/src/drachtio-freeswitch-modules/modules/mod_deepgram_transcribe/, dest: "{{freeswitch_sources_path}}/src/mod/applications/"}
