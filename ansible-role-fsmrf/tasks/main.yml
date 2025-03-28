@@ -242,11 +242,11 @@
         src: "{{ item.src }}"
         dest: "{{ item.dest}}"
       loop:
-        - {src: "configure.ac", dest: "{{freeswitch_sources_path}}/configure.ac"}
-        - {src: "Makefile.am", dest: "{{freeswitch_sources_path}}/Makefile.am"}
-        - {src: "modules.conf.in", dest: "{{freeswitch_sources_path}}/build/modules.conf.in"}
-        - {src: "modules.conf.vanilla.xml", dest: "{{freeswitch_sources_path}}/conf/vanilla/autoload_configs/modules.conf.xml"}
-        - {src: "SpeechSDK-Linux-1.31.0.tar.gz", dest: "/tmp"}
+        - {src: "{{tdir}}/configure.ac", dest: "{{freeswitch_sources_path}}/configure.ac"}
+        - {src: "{{tdir}}/Makefile.am", dest: "{{freeswitch_sources_path}}/Makefile.am"}
+        - {src: "{{tdir}}/modules.conf.in", dest: "{{freeswitch_sources_path}}/build/modules.conf.in"}
+        - {src: "{{tdir}}/modules.conf.vanilla.xml", dest: "{{freeswitch_sources_path}}/conf/vanilla/autoload_configs/modules.conf.xml"}
+        - {src: "{{tdir}}/SpeechSDK-Linux-1.31.0.tar.gz", dest: "/tmp"}
 
     - name: install Azure SpeechSDK
       shell: |
@@ -265,7 +265,7 @@
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
       loop:
-        - {src: "switch_rtp.c.patch", dest: "{{freeswitch_sources_path}}/src/switch_rtp.c"}
+        - {src: "{{tdir}}/switch_rtp.c.patch", dest: "{{freeswitch_sources_path}}/src/switch_rtp.c"}
 
     - name: patch switch_core_media.c 
       patch:
@@ -273,7 +273,7 @@
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
       loop:
-        - {src: "switch_core_media.c.patch", dest: "{{freeswitch_sources_path}}/src/switch_core_media.c"}
+        - {src: "{{tdir}}/switch_core_media.c.patch", dest: "{{freeswitch_sources_path}}/src/switch_core_media.c"}
 
     - name: build libwebsockets
       shell: mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo && make -j 4 && make install # noqa
