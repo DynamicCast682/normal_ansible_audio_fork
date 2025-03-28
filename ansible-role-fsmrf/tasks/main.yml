@@ -436,6 +436,12 @@
         regexp: '^(mod_(aws_lex|aws_transcribe|azure_transcribe|cobalt_transcribe|deepgram_transcribe|ibm_transcribe|jambonz_transcribe|nuance_transcribe|nvidia_transcribe|soniox_transcribe))'
         state: absent
 
+    - name: Remove missing modules from AC_CONFIG_FILES in configure.ac
+      replace:
+        path: "{{freeswitch_sources_path}}/configure.ac"
+        regexp: 'src/mod/applications/mod_(aws_lex|aws_transcribe|azure_transcribe|cobalt_transcribe|deepgram_transcribe|ibm_transcribe|jambonz_transcribe|nuance_transcribe|nvidia_transcribe|soniox_transcribe)/Makefile'
+        replace: ''
+
     - name: Run autoupdate to update obsolete macros
       shell: autoupdate
       args:
