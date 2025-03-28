@@ -417,10 +417,17 @@
     #     LANGUAGE=cpp make -j 4
     #   args:
     #     chdir: /usr/local/src/freeswitch/libs/cobalt-asr-grpc-api
+
+    - name: Run autoupdate to update obsolete macros
+      shell: autoupdate
+      args:
+        chdir: "{{freeswitch_sources_path}}"
+
     - name: Freeswitch autoreconf
       shell: autoreconf -f -i
       args:
         chdir: "{{freeswitch_sources_path}}"
+
     - name: bootstrap 
       shell: ./bootstrap.sh -j chdir={{freeswitch_sources_path}}
 
